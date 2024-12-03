@@ -1,4 +1,4 @@
-use_testing_universe: use_testing_universe
+use_testing_universe: false
 book_size: 10000
 lookback_days: 21
 interval: "Day"
