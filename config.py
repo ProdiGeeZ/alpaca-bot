@@ -17,7 +17,7 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 
-class botConfig:
+class BotConfig:
     api_key: str
     api_secret: str
     data_interval: TimeFrame
@@ -57,13 +57,13 @@ class botConfig:
         self.trading_client = TradingClient(self.api_key, self.api_secret)
 
     def load_api_keys(self, api_key: str | None = None, api_secret: str | None = None):
-        self.api_key = api_key or os.getenv("ALPACA_API_KEY")
-        self.api_secret = api_secret or os.getenv("ALPACA_SECRET_KEY")
+        self.api_key = api_key or os.getenv("APCA-API-KEY-ID")
+        self.api_secret = api_secret or os.getenv("APCA-API-SECRET-KEY")
 
         if self.api_key is None:
-            raise ValueError("API Key not defined. Please set ALPACA_API_KEY environment variable.")
+            raise ValueError("API Key not defined. Please set APCA-API-KEY-ID environment variable.")
         if self.api_secret is None:
-            raise ValueError("API Secret not defined. Please set ALPACA_SECRET_KEY environment variable.")
+            raise ValueError("API Secret not defined. Please set APCA-API-SECRET-KEY environment variable.")
 
     def log_config(self):
         logger.info(f">> Data Interval: {self.data_interval}")
@@ -75,7 +75,7 @@ class botConfig:
 
 if __name__ == "__main__":
     try:
-        config = botConfig("config.yml")
+        config = BotConfig("config.yml")
         config.log_config()
     except Exception as e:
         logger.error(f"Error initialising botConfig: {e}")

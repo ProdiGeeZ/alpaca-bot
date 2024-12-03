@@ -1,8 +1,8 @@
-from config import botConfig
+from config import BotConfig
 from alpaca.data.requests import StockLatestQuoteRequest
 
 class StockUniverse:
-    def __init__(self, config: botConfig) -> None:
+    def __init__(self, config: BotConfig) -> None:
         self.config = config
         self.universe = []
         if self.config.use_testing_universe:
@@ -12,7 +12,7 @@ class StockUniverse:
 
     def load_development_universe(self) -> None:
         self.universe = [
-            "AAPL", "MSFT", "GOOG", "TSLA", "AMZN", "FB", "NFLX", "NVDA", "AMD", "INTC"
+            "AAPL", "MSFT", "GOOG", "TSLA", "AMZN", "META", "NFLX", "NVDA", "AMD", "INTC"
         ]
 
     def load_symbols_from_alpacas(self) -> None:
@@ -26,6 +26,9 @@ class StockUniverse:
                 ]
         self.universe = self.get_symbols_by_price(universe, 25)
 
+    def to_list(self) -> list[str]:
+        return self.universe
+
     def get_symbols_by_price(self, symbols: list[str], midprice) -> list[str]:
         latest_quotes = self.config.data_client.get_stock_latest_quote(
         StockLatestQuoteRequest(symbol_or_symbols=symbols)
@@ -37,6 +40,6 @@ class StockUniverse:
         return [symbol for symbol, price in symbols_to_prices.items() if price > midprice]
 
 if __name__ == "__main__":
-    config = botConfig("config.yml")
+    config = BotConfig("config.yml")
     universe = StockUniverse(config)
     print(len(universe.universe))  
